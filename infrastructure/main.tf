@@ -1,7 +1,11 @@
 terraform {
-    backend "s3" {
-        bucket = "prod-house-terraform"
-        key    = "infinitum360/v1/infrastructure/state"
-        region = "ap-south-1"
-    }
+  backend "s3" {
+    bucket = "prod-house-terraform"
+    key    = "infinitum360/v1/infrastructure/state"
+    region = "ap-south-1"
+  }
+}
+
+provider "aws" {
+  region = var.region
 }
