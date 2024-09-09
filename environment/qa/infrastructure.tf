@@ -7,5 +7,5 @@ module "infrastructure" {
   owner       = var.owner
   project     = var.project
   environment = var.runtime.env.tick
-  vpc         = var.vpc
+  vpc         = ""
 }
