@@ -21,3 +21,11 @@ variable "environment" {
 variable "vpc" {
   description = "vpc"
 }
+
+variable "version_info" {
+  description = "version_info"
+}
+
+variable "relative_path" {
+  description = "relative_path"
+}

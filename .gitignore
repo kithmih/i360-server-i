@@ -1,2 +1,5 @@
 environment/prod/.terraform
 environment/prod/.terraform.lock.hcl
+environment/prod/tfplan
+environment/qa/.terraform
+environment/qa/.terraform.lock.hcl

@@ -12,4 +12,6 @@ module "infrastructure" {
   vpc          = var.vpc
 
   relative_path = "../../infrastructure"
+
 }
+

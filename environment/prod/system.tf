@@ -8,12 +8,6 @@ variable "account_id" {
   default = "412381760559"
 }
 
-# AWS Region
-variable "region" {
-  default = "ap-south-1"
-}
-
-# AWS Region
 variable "owner" {
   default = "tf"
 }
@@ -34,13 +28,36 @@ variable "version_info" {
   }
 }
 
-variable "clients" {
+variable "vpc" {
   default = {
-    microchip = {
-      name = "microchip"
-    }
-    infinitum360 = {
-      name = "infinitum360"
+    "cider" = "10.0.0.0/16"
+    "subnets" = {
+      "public1" = {
+        region = "ap-south-1a"
+        cider  = "10.0.0.0/20"
+      }
+      "private1" = {
+        region = "ap-south-1a"
+        cider  = "10.0.16.0/20"
+      }
+      "public2" = {
+        region = "ap-south-1b"
+        cider  = "10.0.32.0/20"
+      }
+      "private2" = {
+        region = "ap-south-1b"
+        cider  = "10.0.48.0/20"
+      }
     }
   }
 }
+# variable "clients" {
+#   default = {
+#     microchip = {
+#       name = "microchip"
+#     }
+#     infinitum360 = {
+#       name = "infinitum360"
+#     }
+#   }
+# }
