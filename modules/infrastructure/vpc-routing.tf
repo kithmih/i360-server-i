@@ -1,5 +1,5 @@
 # Private Route Table (Main) and association (private route table for internal traffic within the VPC)
-resource "aws-route_table" "rt-private" {
+resource "aws_route_table" "rt-private" {
   vpc_id = aws_vpc.vpc.id
   tags = {
     Name                = "${var.owner}-${var.project}-${var.environment}-rt-private"
