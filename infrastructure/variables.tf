@@ -28,13 +28,28 @@ variable "version_info" {
   }
 }
 
+# GITHub for code repository
+variable "github" {
+  default = {
+    "codestar_connection" : "arn:aws:codeconnections:ap-south-1:412381760559:connection/e7a50f84-5edc-4e05-bf0e-f15221a06bcc",
+    "config_repository_ssh" : "git@github.com:KayVee78/book-api-practise.git"
+  }
+}
+
 variable "clients" {
   default = {
-    microchip = {
-      name = "microchip"
-    }
-    infinitum360 = {
-      name = "infinitum360"
+    bookapi = {
+      name = "bookapi"
+      services = {
+        api = {
+          name      = "api"
+          codebuild = true
+          build = {
+            log_retention = 5
+            compute_type  = "BUILD_GENERAL1_SMALL"
+          }
+        }
+      }
     }
   }
 }

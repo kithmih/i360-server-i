@@ -9,7 +9,7 @@ terraform {
 
 terraform {
   backend "s3" {
-    bucket = "prod-house-terraform"
+    bucket = "prod-house-terraform-i"
     key    = "infinitum360/v1/infrastructure/state"
     region = "ap-south-1"
   }
