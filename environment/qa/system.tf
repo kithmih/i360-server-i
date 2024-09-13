@@ -32,7 +32,7 @@ variable "version_info" {
 variable "github" {
   default = {
     "codestar_connection" : "arn:aws:codeconnections:ap-south-1:412381760559:connection/e7a50f84-5edc-4e05-bf0e-f15221a06bcc",
-    "config_repository_ssh" : "git@github.com:KayVee78/book-api-practise.git"
+    "config_repository_ssh" : "git@github.com:kithmih/i360-server-i.git"
   }
 }
 

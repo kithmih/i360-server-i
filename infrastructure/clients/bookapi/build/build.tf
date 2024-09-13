@@ -10,7 +10,7 @@ resource "aws_codebuild_project" "build" {
 
   name          = "${var.owner}-${var.project}-codebuild-${var.client.name}-${each.value.name}"
   build_timeout = "10"
-  service_role  = data.aws_iam_role.iam.arn
+  service_role  = var.iam.build.arn
 
   artifacts {
     type = "NO_ARTIFACTS"
@@ -18,7 +18,8 @@ resource "aws_codebuild_project" "build" {
 
   source {
     type            = "GITHUB"
-    location        = "https://github.com/KayVee78/book-api-practise.git"
+    # location        = "https://github.com/KayVee78/book-api-practise.git"
+    location        = "https://github.com/${var.github.user}/${join("-", [each.value.name , "practise"])}"
     git_clone_depth = 1
 
     git_submodules_config {

@@ -18,18 +18,30 @@ variable "environment" {
   description = "environment"
 }
 
+variable "version_info" {
+  description = "version_info"
+}
+
+variable "client" {
+  description = ""
+}
+
+variable "iam" {
+  description = ""
+}
+
 variable "infrastructure" {
   description = "infrastructure"
 }
 
-variable "version_info" {
-  description = "version references"
+variable "github" {
+  description = "github"
 }
 
-variable "keys" {
-  description = "keys"
+variable "build" {
+  description = "build"
 }
 
-variable "clients" {
-  description = "clients"
+variable "managed" {
+  description = "managed"
 }

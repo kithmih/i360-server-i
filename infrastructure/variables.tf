@@ -31,15 +31,17 @@ variable "version_info" {
 # GITHub for code repository
 variable "github" {
   default = {
+    user = "KayVee78F"
+    # CodeConnection ARN is given for codestar_connection
     "codestar_connection" : "arn:aws:codeconnections:ap-south-1:412381760559:connection/e7a50f84-5edc-4e05-bf0e-f15221a06bcc",
-    "config_repository_ssh" : "git@github.com:KayVee78/book-api-practise.git"
+    "config_repository_ssh" : "git@github.com:kithmih/i360-server-i.git"
   }
 }
 
 variable "clients" {
   default = {
     bookapi = {
-      name = "bookapi"
+      name = "book-api"
       services = {
         api = {
           name      = "api"
