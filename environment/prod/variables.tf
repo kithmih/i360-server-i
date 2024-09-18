@@ -26,6 +26,7 @@ variable "build" {
     }
   }
 }
+
 variable "clients" {
   default = {
     bookapi = {

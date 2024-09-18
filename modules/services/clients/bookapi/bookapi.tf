@@ -5,5 +5,5 @@ module "s3" {
   #   environment  = var.runtime.env.tick
   environment  = var.environment
   version_info = var.version_info
-  client       = var.clients.infinitum360
+  client       = var.client
 }

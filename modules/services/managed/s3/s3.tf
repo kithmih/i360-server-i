@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "codebuild" {
-  bucket        = "${var.owner}-${var.project}-${var.environment}-codebuild-s3"
+  bucket        = "${var.owner}-${var.project}-${var.environment}-codebuild-s3-bucket"
   force_destroy = true
 
   tags = {

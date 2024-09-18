@@ -19,33 +19,17 @@ variable "environment" {
 }
 
 variable "version_info" {
-  description = "version references"
+  description = "version_info"
 }
 
 variable "client" {
-  description = ""
-}
-
-variable "relative_path" {
-  description = "Execution Path"
-}
-
-variable "infrastructure" {
-  description = "infrastructure"
-}
-
-variable "github" {
-  description = "github"
-}
-
-variable "build" {
-  description = "build"
+  description = "client"
 }
 
 variable "managed" {
   description = "managed"
 }
 
-variable "runtime" {
-  description = "Stack Runtime Parameters"
+variable "s3" {
+  description = "s3"
 }

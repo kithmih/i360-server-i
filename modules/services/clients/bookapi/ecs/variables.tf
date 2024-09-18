@@ -1,7 +1,3 @@
-variable "account_id" {
-  description = "account_id"
-}
-
 variable "region" {
   description = "AWS Region"
 }
@@ -14,16 +10,8 @@ variable "project" {
   description = "project"
 }
 
-variable "environment" {
-  description = "environment"
-}
-
-variable "version_info" {
-  description = "version references"
-}
-
 variable "client" {
-  description = ""
+  description = "client"
 }
 
 variable "relative_path" {
@@ -34,18 +22,22 @@ variable "infrastructure" {
   description = "infrastructure"
 }
 
-variable "github" {
-  description = "github"
-}
-
-variable "build" {
-  description = "build"
-}
-
 variable "managed" {
-  description = "managed"
+  description = "managed_services"
+}
+
+variable "version_info" {
+  description = "version references"
+}
+
+variable "environment" {
+  description = "environment"
 }
 
 variable "runtime" {
   description = "Stack Runtime Parameters"
+}
+
+variable "iam" {
+  description = ""
 }
