@@ -18,10 +18,11 @@ resource "aws_codepipeline" "pipeline" {
     name = "Source"
 
     action {
-      name             = "Source"
-      category         = "Source"
-      owner            = "AWS"
-      provider         = "CodeConnection"
+      name     = "Source"
+      category = "Source"
+      owner    = "AWS"
+      # provider = "CodeConnection"
+      provider         = "CodeStarSourceConnection"
       version          = "1"
       output_artifacts = ["source_output"]
 
@@ -49,6 +50,26 @@ resource "aws_codepipeline" "pipeline" {
       configuration = {
         EnvironmentVariables = "[{\"name\":\"IMAGE_TAG\",\"value\":\"${lower(var.environment)}\",\"type\":\"PLAINTEXT\"},{\"name\":\"CONTAINER_NAME\",\"value\":\"${join("-", ["${var.owner}-${var.project}-${var.client.name}", each.value.name])}\",\"type\":\"PLAINTEXT\"}]"
         ProjectName          = "${var.owner}-${var.project}-codebuild-${var.client.name}-${each.value.name}"
+      }
+    }
+  }
+
+  stage {
+    name = "Deploy"
+
+    action {
+      name            = "Deploy"
+      category        = "Deploy"
+      owner           = "AWS"
+      provider        = "ECS"
+      input_artifacts = ["build_output"]
+      version         = "1"
+
+      configuration = {
+        ServiceName       = join("-", ["${var.owner}-${var.project}-${var.client.name}", each.value.name]),
+        ClusterName       = var.infrastructure.ecs_cluster.primary.name
+        DeploymentTimeout = "15"
+        FileName          = "${join("-", ["${var.owner}-${var.project}-${var.client.name}", each.value.name])}.json"
       }
     }
   }

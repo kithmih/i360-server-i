@@ -4,3 +4,6 @@ data "aws_ecr_repository" "ecr" {
   name = "${var.owner}-${var.project}-bookapi-${var.client.services[each.value.tags.key].name}"
 }
 
+# data "aws_secretsmanager_secret_version" "creds" {
+#   secret_id = var.managed.secret_manager.id
+# }

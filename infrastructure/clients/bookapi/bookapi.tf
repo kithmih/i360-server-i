@@ -24,11 +24,11 @@ module "build" {
   github       = var.github
 }
 
-# module "ecr" {
+module "ecr" {
 
-#   source = "./ecr"
+  source = "./ecr"
 
-#   owner    = var.owner
-#   project  = var.project
-#   services = var.client.services
-# }
+  owner    = var.owner
+  project  = var.project
+  services = var.client.services
+}

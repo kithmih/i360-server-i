@@ -17,9 +17,9 @@ resource "aws_codebuild_project" "build" {
   }
 
   source {
-    type            = "GITHUB"
+    type = "GITHUB"
     # location        = "https://github.com/KayVee78/book-api-practise.git"
-    location        = "https://github.com/${var.github.user}/${join("-", [each.value.name , "practise"])}"
+    location        = "https://github.com/${var.github.user}/book-${each.value.name}-practise"
     git_clone_depth = 1
 
     git_submodules_config {

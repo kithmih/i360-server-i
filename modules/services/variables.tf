@@ -41,3 +41,11 @@ variable "runtime" {
 variable "relative_path" {
   description = "Execution Path"
 }
+
+variable "secret_access_key" {
+  description = "secret_access_key"
+}
+
+variable "access_key" {
+  description = "access_key"
+}

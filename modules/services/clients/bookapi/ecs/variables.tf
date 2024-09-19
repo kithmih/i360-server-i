@@ -38,6 +38,14 @@ variable "runtime" {
   description = "Stack Runtime Parameters"
 }
 
+variable "secret_access_key" {
+  description = "secret_access_key"
+}
+
+variable "access_key" {
+  description = "access_key"
+}
+
 variable "iam" {
   description = ""
 }

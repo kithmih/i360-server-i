@@ -45,3 +45,11 @@ variable "build" {
 variable "managed" {
   description = "managed"
 }
+
+variable "secret_access_key" {
+  description = "secret_access_key"
+}
+
+variable "access_key" {
+  description = "access_key"
+}

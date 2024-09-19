@@ -5,3 +5,10 @@ module "s3" {
   environment  = var.runtime.env.tick
   version_info = var.version_info
 }
+
+module "secretmanager" {
+  source      = "./secretmanager"
+  owner       = var.owner
+  project     = var.project
+  environment = var.runtime.env.tick
+}
