@@ -49,3 +49,7 @@ variable "access_key" {
 variable "iam" {
   description = ""
 }
+
+variable "s3" {
+  description = ""
+}

@@ -7,7 +7,6 @@ variable "region" {
   default = "ap-south-1"
 }
 
-# AWS Region
 variable "owner" {
   default = "tf"
 }
