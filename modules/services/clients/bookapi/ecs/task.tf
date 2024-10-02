@@ -28,9 +28,9 @@ data "template_file" "contatiners" {
     # ACCESS_KEY_ID           = local.db_creds.BOOKAPI_ACCESS_KEY_ID
     # SECRET_ACCESS_KEY       = local.db_creds.BOOKAPI_SECRET_ACCESS_KEY
     # S3_BOOKAPI_BUCKET_NAME = local.db_creds.BOOKAPI_S3_BUCKET_NAME
-    REGION            = var.region
-    ACCESS_KEY_ID     = var.access_key
-    SECRET_ACCESS_KEY = var.secret_access_key
-    # S3_BOOKAPI_BUCKET_NAME = local.db_creds.BOOKAPI_S3_BUCKET_NAME
+    REGION                 = var.region
+    ACCESS_KEY_ID          = var.access_key
+    SECRET_ACCESS_KEY      = var.secret_access_key
+    S3_BOOKAPI_BUCKET_NAME = var.s3.public.id
   }
 }

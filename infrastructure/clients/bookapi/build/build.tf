@@ -36,7 +36,7 @@ resource "aws_codebuild_project" "build" {
 
     environment_variable {
       name  = "IMAGE_REPO_NAME"
-      value = "${var.owner}-${var.project}-${var.client.name}-${each.value.name}"
+      value = "${trimspace(var.owner)}-${var.project}-${var.client.name}-${each.value.name}"
     }
     environment_variable {
       name  = "AWS_DEFAULT_REGION"

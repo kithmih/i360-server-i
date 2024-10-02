@@ -50,6 +50,7 @@ module "ecs" {
   runtime           = var.runtime
   secret_access_key = var.secret_access_key
   access_key        = var.access_key
+  s3                = module.s3.s3
   iam               = module.iam.iam
   relative_path     = "${var.relative_path}/ecs"
 }

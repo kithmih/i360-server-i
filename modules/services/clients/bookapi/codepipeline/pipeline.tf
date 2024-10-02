@@ -28,7 +28,7 @@ resource "aws_codepipeline" "pipeline" {
 
       configuration = {
         ConnectionArn    = var.github.codestar_connection
-        FullRepositoryId = "${var.github.user}/${join("-", [each.value.name, "practise"])}"
+        FullRepositoryId = "${var.github.user}/book-${each.value.name}-practise"
         # BranchName       = lower(var.environment)
         BranchName = "main"
       }
@@ -48,7 +48,7 @@ resource "aws_codepipeline" "pipeline" {
       version          = "1"
 
       configuration = {
-        EnvironmentVariables = "[{\"name\":\"IMAGE_TAG\",\"value\":\"${lower(var.environment)}\",\"type\":\"PLAINTEXT\"},{\"name\":\"CONTAINER_NAME\",\"value\":\"${join("-", ["${var.owner}-${var.project}-${var.client.name}", each.value.name])}\",\"type\":\"PLAINTEXT\"}]"
+        EnvironmentVariables = "[{\"name\":\"IMAGE_TAG\",\"value\":\"${trimspace(lower(var.environment))}\",\"type\":\"PLAINTEXT\"},{\"name\":\"CONTAINER_NAME\",\"value\":\"${join("-", ["${var.owner}-${var.project}-${var.client.name}", each.value.name])}\",\"type\":\"PLAINTEXT\"}]"
         ProjectName          = "${var.owner}-${var.project}-codebuild-${var.client.name}-${each.value.name}"
       }
     }
@@ -68,7 +68,7 @@ resource "aws_codepipeline" "pipeline" {
       configuration = {
         ServiceName       = join("-", ["${var.owner}-${var.project}-${var.client.name}", each.value.name]),
         ClusterName       = var.infrastructure.ecs_cluster.primary.name
-        DeploymentTimeout = "15"
+        DeploymentTimeout = "30"
         FileName          = "${join("-", ["${var.owner}-${var.project}-${var.client.name}", each.value.name])}.json"
       }
     }

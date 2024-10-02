@@ -16,7 +16,7 @@ variable "runtime" {
 
 variable "build" {
   default = {
-    branch = "prod"
+    branch = "main"
     notification = {
       sns_topic = "app-builds"
     }
