@@ -8,3 +8,10 @@ environment/qa/tfplan
 
 infrastructure/.terraform.lock.hcl
 infrastructure/.terraform
+
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+*tfplan
+*plan
+.terraform.lock.hcl
