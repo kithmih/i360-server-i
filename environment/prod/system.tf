@@ -9,7 +9,7 @@ variable "account_id" {
 }
 
 #hard coded access_key and secret_access_key [not pushed it to repo]
-
+#checking if this works
 variable "access_key" {
   default = getenv("AWS_ACCESS_KEY_ID")
 }
