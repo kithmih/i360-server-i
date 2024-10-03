@@ -41,7 +41,8 @@ jobs:
             echo "::set-output name=environment::infastructure"
           else
             echo "No relevant environment changes detected"
-          exit 1
+            exit 1
+          fi
 
       - name: Setting Working Directory for Environment
         id: set-dir
