@@ -27,6 +27,7 @@ variable "build" {
   }
 }
 
+#checking if variables are accessible
 variable "clients" {
   default = {
     bookapi = {
