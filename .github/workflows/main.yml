@@ -47,10 +47,10 @@ jobs:
       - name: Setting Working Directory for Environment
         id: set-dir
         run: |
-          if [ "${{ steps.changed-environment.outputs.environment }}" = "infrastructure" ]; then
+          if [ "${{ env.environment }}" = "infrastructure" ]; then
             echo "working_directory=infrastructure" >> $GITHUB_ENV
           else
-            echo "working_directory=environment/${{ steps.changed-environment.outputs.environment }}" >> $GITHUB_ENV
+            echo "working_directory=environment/${{ env.environment }}" >> $GITHUB_ENV
           fi
 
       - name: Terraform Init
