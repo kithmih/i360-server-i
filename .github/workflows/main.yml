@@ -5,7 +5,7 @@ on:
     paths:
       - "environment/prod/**"
       - "environment/qa/**"
-      - "infastructure"
+      - "infrastructure"
 
 jobs:
   terraform:
@@ -32,13 +32,13 @@ jobs:
         id: changed-environment
         run: |
           git fetch origin ${{ github.event.pull_request.base.ref}}
-          
+
           if git diff --name-only origin/${{ github.event.pull_request.base.ref}} | grep -q '^environment/prod/'; then
-            echo "::set-output name=environment::prod"
+            echo "environment=prod" >> $GITHUB_ENV
           elif git diff --name-only origin/${{ github.event.pull_request.base.ref}} | grep -q '^environment/qa/'; then
-            echo "::set-output name=environment::qa"
-          elif git diff --name-only origin/${{ github.event.pull_request.base.ref}} | grep -q '^infastructure'; then
-            echo "::set-output name=environment::infastructure"
+            echo "environment=qa" >> $GITHUB_ENV
+          elif git diff --name-only origin/${{ github.event.pull_request.base.ref}} | grep -q '^infrastructure'; then
+            echo "environment=infrastructure" >> $GITHUB_ENV
           else
             echo "No relevant environment changes detected"
             exit 1
@@ -47,10 +47,10 @@ jobs:
       - name: Setting Working Directory for Environment
         id: set-dir
         run: |
-          if [ "${{ steps.changed-environment.outputs.environment }} " = "infastructure" ]; then
-            echo "::set-output name=working_directory::infrastructure"
+          if [ "${{ steps.changed-environment.outputs.environment }}" = "infrastructure" ]; then
+            echo "working_directory=infrastructure" >> $GITHUB_ENV
           else
-            echo "::set-output name=working_directory::environment/${{ steps.changed-environment.outputs.environment }}"
+            echo "working_directory=environment/${{ steps.changed-environment.outputs.environment }}" >> $GITHUB_ENV
           fi
 
       - name: Terraform Init
