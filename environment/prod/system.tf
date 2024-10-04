@@ -11,11 +11,11 @@ variable "account_id" {
 #hard coded access_key and secret_access_key [not pushed it to repo]
 
 variable "access_key" {
-  default = getenv("AWS_ACCESS_KEY_ID")
+  default = ""
 }
 
 variable "secret_access_key" {
-  default = getenv("AWS_SECRET_ACCESS_KEY")
+  default = ""
 }
 
 variable "owner" {
