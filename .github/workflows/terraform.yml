@@ -125,9 +125,9 @@ jobs:
         uses: dflook/terraform-new-workspace@v1
         with:
           workspace: ${{ env.tf_workspace }}
-          path: environments/${{ env.tf_environment }}
-          backend_config_file: environments/backend.tfvars
-          backend_config: key=environments/${{ env.tf_environment }}/terraform.tfstate
+          path: environment/${{ env.tf_environment }}
+          backend_config_file: environment/backend.tfvars
+          backend_config: key=environment/${{ env.tf_environment }}/terraform.tfstate
 
         # Initialize Terraform for General Infrastructure
       - name: Terraform Init (General Infrastructure)
@@ -155,7 +155,7 @@ jobs:
         # Environment-specific Terraform steps
       - name: Terraform Init (Environment-Specific)
         if: env.tf_environment != 'infrastructure'
-        run: terraform init -backend-config="path=environments/${{ env.tf_environment }}/terraform.tfstate" -chdir=environments/${{ env.tf_environment }}
+        run: terraform init -backend-config="path=environment/${{ env.tf_environment }}/terraform.tfstate" -chdir=environment/${{ env.tf_environment }}
 
       - name: Terraform plan (Environment-Specific)
         if: env.tf_environment != 'infrastructure' && github.event_name == 'pull_request'
@@ -164,8 +164,8 @@ jobs:
           label: ${{ matrix.path[1] }}
           destroy: ${{ contains(matrix.path[0], 'destroy') }}
           workspace: ${{ env.tf_workspace }}
-          path: environments/${{ env.tf_environment }}
-          backend_config_file: environments/backend.tfvars
+          path: environment/${{ env.tf_environment }}
+          backend_config_file: environment/backend.tfvars
 
       - name: Terraform apply (Environment-Specific)
         if: env.tf_environment != 'infrastructure' && (github.event_name == 'push' || contains(matrix.path[0], 'auto_approve'))
@@ -174,5 +174,5 @@ jobs:
           label: ${{ matrix.path[1] }}
           destroy: ${{ contains(matrix.path[0], 'destroy') }}
           workspace: ${{ env.tf_workspace }}
-          path: environments/${{ env.tf_environment }}
-          backend_config_file: environments/backend.tfvars
+          path: environment/${{ env.tf_environment }}
+          backend_config_file: environment/backend.tfvars
