@@ -28,6 +28,7 @@ variable "build" {
   }
 }
 
+#checking if workflow runs properly
 variable "clients" {
   default = {
     bookapi = {
