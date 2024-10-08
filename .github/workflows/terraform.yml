@@ -132,7 +132,9 @@ jobs:
         # Initialize Terraform for General Infrastructure
       - name: Terraform Init (General Infrastructure)
         if: env.tf_environment == 'infrastructure'
-        run: terraform init -backend-config="path=infrastructure/terraform.tfstate" -chdir=infrastructure
+        run: | 
+          cd infrastructure
+          terraform init -backend-config="path=infrastructure/terraform.tfstate"
 
         # Plan Changes for General Infrastructure
       - name: Terraform plan (General Infrastructure)
@@ -155,7 +157,9 @@ jobs:
         # Environment-specific Terraform steps
       - name: Terraform Init (Environment-Specific)
         if: env.tf_environment != 'infrastructure'
-        run: terraform init -backend-config="path=environment/${{ env.tf_environment }}/terraform.tfstate" -chdir=environment/${{ env.tf_environment }}
+        run: |
+          cd environment/${{ env.tf_environment }}
+          terraform init -backend-config="path=environment/${{ env.tf_environment }}/terraform.tfstate" 
 
       - name: Terraform plan (Environment-Specific)
         if: env.tf_environment != 'infrastructure' && github.event_name == 'pull_request'
