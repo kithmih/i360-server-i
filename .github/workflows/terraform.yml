@@ -39,7 +39,10 @@ jobs:
         with:
           dir_names_max_depth: 2
           dir_names: true
-          files: environment/qa/** environment/prod/** infrastructure/**
+          files: |
+            environment/qa/** 
+            environment/prod/** 
+            infrastructure/**
           json_raw_format: true
           json: true
 
