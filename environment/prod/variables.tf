@@ -14,6 +14,7 @@ variable "runtime" {
   }
 }
 
+# checking if workflow runs properly
 variable "build" {
   default = {
     branch = "main"
@@ -27,7 +28,6 @@ variable "build" {
   }
 }
 
-#checking if variables are accessible
 variable "clients" {
   default = {
     bookapi = {
