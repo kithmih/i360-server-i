@@ -18,7 +18,7 @@ phases:
       - if [ "$(find environment/prod -type f -newer .git/HEAD)" ]; then ENV="prod"; fi
       - if [ "$(find environment/qa -type f -newer .git/HEAD)" ]; then ENV="qa"; fi
       - if [[ -z "$ENV" ]]; then echo "No changes in environment-specific folders. Exiting..."; exit 0; fi
-      - echo "Detected changes in environment: $ENV"
+      - echo "Detected changes in environment:$ENV"
       - cd environment/$ENV
 
   # build:
