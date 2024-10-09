@@ -19,7 +19,7 @@ phases:
       - if [[ "$CHANGED_DIRS" == *"environment/prod"* ]]; then ENV="prod"; fi
       - if [[ "$CHANGED_DIRS" == *"environment/qa"* ]]; then ENV="qa"; fi
       - if [[ -z "$ENV" ]]; then echo "No changes in environment-specific folders. Exiting..."; exit 0; fi
-      - echo "Detected changes in environment: $ENV"
+      - echo "Detected changes in environment:$ENV"
       - cd environment/$ENV
 
   # build:
