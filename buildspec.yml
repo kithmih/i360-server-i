@@ -14,13 +14,11 @@ phases:
   pre_build:
     commands:
       - echo "Starting pre-build..."
-      #  enable a source phase to check out the repo or set up the CodeBuild project to use CODEBUILD_RESOLVED_SOURCE_VERSION (to detect changes)
-      # determine the list of directories that have been changed between the current branch 
-      - CHANGED_DIRS=$(git diff-tree --no-commit-id --name-only -r $CODEBUILD_RESOLVED_SOURCE_VERSION)
-      - if [[ "$CHANGED_DIRS" == *"environment/prod"* ]]; then ENV="prod"; fi
-      - if [[ "$CHANGED_DIRS" == *"environment/qa"* ]]; then ENV="qa"; fi
+      - echo "Checking for changes in environment folders..."
+      - if [ "$(find environment/prod -type f -newer .git/HEAD)" ]; then ENV="prod"; fi
+      - if [ "$(find environment/qa -type f -newer .git/HEAD)" ]; then ENV="qa"; fi
       - if [[ -z "$ENV" ]]; then echo "No changes in environment-specific folders. Exiting..."; exit 0; fi
-      - echo "Detected changes in environment:$ENV"
+      - echo "Detected changes in environment: $ENV"
       - cd environment/$ENV
 
   # build:
