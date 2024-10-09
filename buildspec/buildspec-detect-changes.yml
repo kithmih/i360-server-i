@@ -4,7 +4,7 @@ phases:
     commands:
       - echo "Detecting changed directories..."
       - git fetch origin $CODEBUILD_SOURCE_VERSION --tags
-      - CHANGED_FILES=$(git diff --name-only origin/main...$CODEBUILD_SOURCE_VERSION)
+      - CHANGED_FILES=$(git diff --name-only origin/development...$CODEBUILD_SOURCE_VERSION)
       - echo "Changed files: $CHANGED_FILES"
       - echo "Setting TARGET_DIR based on changed files..."
       - |
