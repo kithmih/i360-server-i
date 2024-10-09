@@ -1,4 +1,3 @@
-version: 0.2
 phases:
   pre_build:
     commands:
@@ -6,17 +5,6 @@ phases:
       - git fetch origin $CODEBUILD_SOURCE_VERSION --tags
       - CHANGED_FILES=$(git diff --name-only origin/development...$CODEBUILD_SOURCE_VERSION)
       - echo "Changed files: $CHANGED_FILES"
-      - echo "Setting TARGET_DIR based on changed files..."
-      - |
-        if echo "$CHANGED_FILES" | grep -q "^environment/qa/"; then
-          TARGET_DIR="environment/qa"
-        elif echo "$CHANGED_FILES" | grep -q "^environment/prod/"; then
-          TARGET_DIR="environment/prod"
-        elif echo "$CHANGED_FILES" | grep -q "^infrastructure/"; then
-          TARGET_DIR="infrastructure"
-        else
-          echo "No changes in qa, prod, or infrastructure directories."
-          exit 1
-        fi
+      - if echo "$CHANGED_FILES" | grep -q "^environment/qa/"; then TARGET_DIR="environment/qa"; elif echo "$CHANGED_FILES" | grep -q "^environment/prod/"; then TARGET_DIR="environment/prod"; elif echo "$CHANGED_FILES" | grep -q "^infrastructure/"; then TARGET_DIR="infrastructure"; else echo "No changes in qa, prod, or infrastructure directories."; exit 1; fi
       - echo "Target directory is set to: $TARGET_DIR"
       - echo "TARGET_DIR=${TARGET_DIR}" > build.env
