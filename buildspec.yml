@@ -11,25 +11,25 @@ phases:
       - mv terraform /usr/local/bin/
       - terraform --version
 
-  pre_build:
-    commands:
-      - echo "Starting pre-build..."
-      #  enable a source phase to check out the repo or set up the CodeBuild project to use CODEBUILD_RESOLVED_SOURCE_VERSION (to detect changes)
-      - CHANGED_DIRS=$(git diff --name-only $CODEBUILD_RESOLVED_SOURCE_VERSION~1 $CODEBUILD_RESOLVED_SOURCE_VERSION)
-      - if [[ "$CHANGED_DIRS" == *"environment/prod"* ]]; then ENV="prod"; fi
-      - if [[ "$CHANGED_DIRS" == *"environment/qa"* ]]; then ENV="qa"; fi
-      - if [[ -z "$ENV" ]]; then echo "No changes in environment-specific folders. Exiting..."; exit 0; fi
-      - echo "Detected changes in environment: $ENV"
-      - cd environment/$ENV
+  # pre_build:
+  #   commands:
+  #     - echo "Starting pre-build..."
+  #     #  enable a source phase to check out the repo or set up the CodeBuild project to use CODEBUILD_RESOLVED_SOURCE_VERSION (to detect changes)
+  #     - CHANGED_DIRS=$(git diff --name-only $CODEBUILD_RESOLVED_SOURCE_VERSION~1 $CODEBUILD_RESOLVED_SOURCE_VERSION)
+  #     - if [[ "$CHANGED_DIRS" == *"environment/prod"* ]]; then ENV="prod"; fi
+  #     - if [[ "$CHANGED_DIRS" == *"environment/qa"* ]]; then ENV="qa"; fi
+  #     - if [[ -z "$ENV" ]]; then echo "No changes in environment-specific folders. Exiting..."; exit 0; fi
+  #     - echo "Detected changes in environment: $ENV"
+  #     - cd environment/$ENV
 
-  build:
-    commands:
-      - echo "Running Terraform init, plan, and apply..."
-      - terraform init -backend-config="key=terraform/$ENV.tfstate"
-      - terraform validate
-      - if [ $? -ne 0 ]; then echo "Terraform validation failed. Exiting..."; exit 1; fi
-      - terraform plan -out=plan.out
-      - if [ $? -ne 0 ]; then echo "Terraform plan failed. Exiting..."; exit 1; fi
+  # build:
+  #   commands:
+  #     - echo "Running Terraform init, plan, and apply..."
+  #     - terraform init -backend-config="key=terraform/$ENV.tfstate"
+  #     - terraform validate
+  #     - if [ $? -ne 0 ]; then echo "Terraform validation failed. Exiting..."; exit 1; fi
+  #     - terraform plan -out=plan.out
+  #     - if [ $? -ne 0 ]; then echo "Terraform plan failed. Exiting..."; exit 1; fi
 
   # post_build:
   #   commands:
