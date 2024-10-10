@@ -11,28 +11,27 @@ phases:
       - mv terraform /usr/local/bin/
       - terraform --version
 
-    pre_build:
-      commands:
-        - echo "Detecting changes in folders"
-        - git fetch origin development 
-        - CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
-        - echo "Changed files: $CHANGED_FILES"
-      
-        - export QA_CHANGED=false
-        - export PROD_CHANGED=false
-        - export INFRA_CHANGED=false
-        
-       
-        - if echo "$CHANGED_FILES" | grep -q "^environment/qa/"; then echo "QA folder changed"; export QA_CHANGED=true; fi
-        - if echo "$CHANGED_FILES" | grep -q "^environment/prod/"; then echo "Prod folder changed"; export PROD_CHANGED=true; fi
-        - if echo "$CHANGED_FILES" | grep -q "^infrastructure/"; then echo "Infrastructure folder changed"; export INFRA_CHANGED=true; fi
-  
-        - if [ "$QA_CHANGED" == "false" ] && [ "$PROD_CHANGED" == "false" ] && [ "$INFRA_CHANGED" == "false" ]; then
-            echo "No relevant folders have changed";
-            export NO_ENVIRONMENT=true;
-          else
-            export NO_ENVIRONMENT=false;
-          fi
+  pre_build:
+    commands:
+      - echo "Detecting changes in folders"
+      - git fetch origin development
+      - CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
+      - echo "Changed files: $CHANGED_FILES"
+
+      - export QA_CHANGED=false
+      - export PROD_CHANGED=false
+      - export INFRA_CHANGED=false
+
+      - if echo "$CHANGED_FILES" | grep -q "^environment/qa/"; then echo "QA folder changed"; export QA_CHANGED=true; fi
+      - if echo "$CHANGED_FILES" | grep -q "^environment/prod/"; then echo "Prod folder changed"; export PROD_CHANGED=true; fi
+      - if echo "$CHANGED_FILES" | grep -q "^infrastructure/"; then echo "Infrastructure folder changed"; export INFRA_CHANGED=true; fi
+
+      - if [ "$QA_CHANGED" == "false" ] && [ "$PROD_CHANGED" == "false" ] && [ "$INFRA_CHANGED" == "false" ]; then
+        echo "No relevant folders have changed";
+        export NO_ENVIRONMENT=true;
+        else
+        export NO_ENVIRONMENT=false;
+        fi
 
   # build:
   #   commands:
