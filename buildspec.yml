@@ -17,21 +17,21 @@ phases:
       - cd environment/prod
       - terraform init
       - terraform plan -out=tfplan-prod
-      - terraform apply "tfplan-prod"
+      # - terraform apply "tfplan-prod"
       - cd ../..
 
       - echo "Running terraform in environment/qa"
       - cd environment/qa
       - terraform init
       - terraform plan -out=tfplan-qa
-      - terraform apply "tfplan-qa"
+      # - terraform apply "tfplan-qa"
       - cd ../..
 
       - echo "Running terraform in infrastructure"
       - cd infrastructure
       - terraform init
       - terraform plan -out=tfplan-infra
-      - terraform apply "tfplan-infra"
+      # - terraform apply "tfplan-infra"
       - cd ..
 
 artifacts:
