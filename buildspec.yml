@@ -10,54 +10,57 @@ phases:
       - unzip terraform.zip
       - mv terraform /usr/local/bin/
       - terraform --version
+      
+  pre_build:
+    commands:
+      - echo "Setting up environment variables based on branch..."
+      - if [[ "$CODEBUILD_WEBHOOK_HEAD_REF" == "refs/heads/qa" ]]; then
+          export ENV_FOLDER="environment/qa";
+          export TF_VAR_env="qa";
+        elif [[ "$CODEBUILD_WEBHOOK_HEAD_REF" == "refs/heads/prod" ]]; then
+          export ENV_FOLDER="environment/prod";
+          export TF_VAR_env="prod";
+        else
+          echo "Branch not recognized. Exiting.";
+          exit 1;
+        fi
+
   build:
     commands:
-      - echo "Running terraform in environment/prod"
-      - cd environment/prod
+      - echo "Running Terraform Init..."
+      - cd $ENV_FOLDER
       - terraform init
-      - terraform plan -out=tfplan-prod
-      # - terraform apply "tfplan-prod"
-      - cd ../..
+      - echo "Running Terraform Plan for $TF_VAR_env environment..."
+      - terraform plan -out=tfplan
+      
+  post_build:
+    commands:
+      - echo "Applying Terraform changes..."
+      - terraform apply -auto-approve tfplan
 
-      - echo "Running terraform in environment/qa"
-      - cd environment/qa
-      - terraform init
-      - terraform plan -out=tfplan-qa
-      # - terraform apply "tfplan-qa"
-      - cd ../..
+  # build:
+  #   commands:
+  #     - echo "Running terraform in environment/prod"
+  #     - cd environment/prod
+  #     - terraform init
+  #     - terraform plan -out=tfplan-prod
+  #     # - terraform apply "tfplan-prod"
+  #     - cd ../..
 
-      - echo "Running terraform in infrastructure"
-      - cd infrastructure
-      - terraform init
-      - terraform plan -out=tfplan-infra
-      # - terraform apply "tfplan-infra"
-      - cd ..
+  #     - echo "Running terraform in environment/qa"
+  #     - cd environment/qa
+  #     - terraform init
+  #     - terraform plan -out=tfplan-qa
+  #     # - terraform apply "tfplan-qa"
+  #     - cd ../..
+
+  #     - echo "Running terraform in infrastructure"
+  #     - cd infrastructure
+  #     - terraform init
+  #     - terraform plan -out=tfplan-infra
+  #     # - terraform apply "tfplan-infra"
+  #     - cd ..
 
 artifacts:
   files:
     - "**/*"
-
-  # pre_build:
-  #   commands:
-  #     - echo "Starting pre-build..."
-  #     #  enable a source phase to check out the repo or set up the CodeBuild project to use CODEBUILD_RESOLVED_SOURCE_VERSION (to detect changes)
-  #     - CHANGED_DIRS=$(git diff --name-only $CODEBUILD_RESOLVED_SOURCE_VERSION~1 $CODEBUILD_RESOLVED_SOURCE_VERSION)
-  #     - if [[ "$CHANGED_DIRS" == *"environment/prod"* ]]; then ENV="prod"; fi
-  #     - if [[ "$CHANGED_DIRS" == *"environment/qa"* ]]; then ENV="qa"; fi
-  #     - if [[ -z "$ENV" ]]; then echo "No changes in environment-specific folders. Exiting..."; exit 0; fi
-  #     - echo "Detected changes in environment:$ENV"
-  #     - cd environment/$ENV
-
-  # build:
-  #   commands:
-  #     - echo "Running Terraform init, plan, and apply..."
-  #     - terraform init -backend-config="key=terraform/$ENV.tfstate"
-  #     - terraform validate
-  #     - if [ $? -ne 0 ]; then echo "Terraform validation failed. Exiting..."; exit 1; fi
-  #     - terraform plan -out=plan.out
-  #     - if [ $? -ne 0 ]; then echo "Terraform plan failed. Exiting..."; exit 1; fi
-
-  # post_build:
-  #   commands:
-  #     - echo "Applying Terraform changes..."
-  #     - terraform apply -auto-approve "plan.out"
