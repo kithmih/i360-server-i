@@ -10,51 +10,28 @@ phases:
       - unzip terraform.zip
       - mv terraform /usr/local/bin/
       - terraform --version
-
-  pre_build:
+  build:
     commands:
-      - echo "Detecting changes in folders"
-      - git fetch origin development
-      - CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
-      - echo "Changed files: $CHANGED_FILES"
+      - echo "Running terraform in environment/prod"
+      - cd environment/prod
+      - terraform init
+      - terraform plan -out=tfplan-prod
+      # - terraform apply "tfplan-prod"
+      - cd ../..
 
-      - export QA_CHANGED=false
-      - export PROD_CHANGED=false
-      - export INFRA_CHANGED=false
+      - echo "Running terraform in environment/qa"
+      - cd environment/qa
+      - terraform init
+      - terraform plan -out=tfplan-qa
+      # - terraform apply "tfplan-qa"
+      - cd ../..
 
-      - if echo "$CHANGED_FILES" | grep -q "^environment/qa/"; then echo "QA folder changed"; export QA_CHANGED=true; fi
-      - if echo "$CHANGED_FILES" | grep -q "^environment/prod/"; then echo "Prod folder changed"; export PROD_CHANGED=true; fi
-      - if echo "$CHANGED_FILES" | grep -q "^infrastructure/"; then echo "Infrastructure folder changed"; export INFRA_CHANGED=true; fi
-
-      - if [ "$QA_CHANGED" == "false" ] && [ "$PROD_CHANGED" == "false" ] && [ "$INFRA_CHANGED" == "false" ]; then
-        echo "No relevant folders have changed";
-        export NO_ENVIRONMENT=true;
-        else
-        export NO_ENVIRONMENT=false;
-        fi
-
-  # build:
-  #   commands:
-  #     - echo "Running terraform in environment/prod"
-  #     - cd environment/prod
-  #     - terraform init
-  #     - terraform plan -out=tfplan-prod
-  #     # - terraform apply "tfplan-prod"
-  #     - cd ../..
-
-  #     - echo "Running terraform in environment/qa"
-  #     - cd environment/qa
-  #     - terraform init
-  #     - terraform plan -out=tfplan-qa
-  #     # - terraform apply "tfplan-qa"
-  #     - cd ../..
-
-  #     - echo "Running terraform in infrastructure"
-  #     - cd infrastructure
-  #     - terraform init
-  #     - terraform plan -out=tfplan-infra
-  #     # - terraform apply "tfplan-infra"
-  #     - cd ..
+      - echo "Running terraform in infrastructure"
+      - cd infrastructure
+      - terraform init
+      - terraform plan -out=tfplan-infra
+      # - terraform apply "tfplan-infra"
+      - cd ..
 
 artifacts:
   files:
