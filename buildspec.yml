@@ -13,15 +13,15 @@ phases:
 
   build:
     commands:
-      - echo "Running terraform in environments/prod"
-      - cd environments/prod
+      - echo "Running terraform in environment/prod"
+      - cd environment/prod
       - terraform init
       - terraform plan -out=tfplan-prod
       - terraform apply "tfplan-prod"
       - cd ../..
 
-      - echo "Running terraform in environments/qa"
-      - cd environments/qa
+      - echo "Running terraform in environment/qa"
+      - cd environment/qa
       - terraform init
       - terraform plan -out=tfplan-qa
       - terraform apply "tfplan-qa"
