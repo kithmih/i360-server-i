@@ -14,29 +14,30 @@ phases:
   pre_build:
     commands:
       - echo "Setting up environment variables based on branch..."
-      - if [[ "$CODEBUILD_WEBHOOK_HEAD_REF" == "refs/heads/qa" ]]; then
-          export ENV_FOLDER="environment/qa";
-          export TF_VAR_env="qa";
-        elif [[ "$CODEBUILD_WEBHOOK_HEAD_REF" == "refs/heads/prod" ]]; then
-          export ENV_FOLDER="environment/prod";
-          export TF_VAR_env="prod";
-        else
-          echo "Branch not recognized. Exiting.";
-          exit 1;
+      - |
+        if [[ "$CODEBUILD_SOURCE_VERSION" == "refs/heads/qa" ]]; then
+          export ENVIRONMENT="qa"
+          cd environment/qa
+        elif [[ "$CODEBUILD_SOURCE_VERSION" == "refs/heads/prod" ]]; then
+          export ENVIRONMENT="prod"
+          cd environment/prod
         fi
+      - echo "Environment set to $ENVIRONMENT"
 
   build:
     commands:
-      - echo "Running Terraform Init..."
-      - cd $ENV_FOLDER
+      - echo "Running Terraform in $ENVIRONMENT"
       - terraform init
-      - echo "Running Terraform Plan for $TF_VAR_env environment..."
       - terraform plan -out=tfplan
-      
-  post_build:
-    commands:
-      - echo "Applying Terraform changes..."
-      - terraform apply -auto-approve tfplan
+      # - terraform apply "tfplan"
+      - cd ../..
+
+      - echo "Running terraform in infrastructure"
+      - cd infrastructure
+      - terraform init
+      - terraform plan -out=tfplan-infra
+      # - terraform apply "tfplan-infra"
+      - cd ..
 
   # build:
   #   commands:
