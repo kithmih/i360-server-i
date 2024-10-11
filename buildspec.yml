@@ -14,30 +14,35 @@ phases:
   pre_build:
     commands:
       - echo "Setting up environment variables based on branch..."
+      - TRIGGER_BRANCH=$(echo "$CODEBUILD_WEBHOOK_BASE_REF" | sed 's|refs/heads/||')
+      - echo "Base branch identified as:$TRIGGER_BRANCH"
       - |
-        if [[ "$CODEBUILD_SOURCE_VERSION" == "refs/heads/qa" ]]; then
+        if [[ "$TRIGGER_BRANCH" == "qa" ]]; then
           export ENVIRONMENT="qa"
           cd environment/qa
-        elif [[ "$CODEBUILD_SOURCE_VERSION" == "refs/heads/prod" ]]; then
+        elif [[ "$TRIGGER_BRANCH" == "prod" ]]; then
           export ENVIRONMENT="prod"
           cd environment/prod
+        else
+          echo "No configurations"
+          exit 1
         fi
       - echo "Environment set to $ENVIRONMENT"
 
-  build:
-    commands:
-      - echo "Running Terraform in $ENVIRONMENT"
-      - terraform init
-      - terraform plan -out=tfplan
-      # - terraform apply "tfplan"
-      - cd ../..
+  # build:
+  #   commands:
+  #     - echo "Running Terraform in $ENVIRONMENT"
+  #     - terraform init
+  #     - terraform plan -out=tfplan
+  #     # - terraform apply "tfplan"
+  #     - cd ../..
 
-      - echo "Running terraform in infrastructure"
-      - cd infrastructure
-      - terraform init
-      - terraform plan -out=tfplan-infra
-      # - terraform apply "tfplan-infra"
-      - cd ..
+  #     - echo "Running terraform in infrastructure"
+  #     - cd infrastructure
+  #     - terraform init
+  #     - terraform plan -out=tfplan-infra
+  #     # - terraform apply "tfplan-infra"
+  #     - cd ..
 
   # build:
   #   commands:
