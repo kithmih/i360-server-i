@@ -14,7 +14,7 @@ phases:
   pre_build:
     commands:
       - echo "Setting up qa environment"
-      - echo "Building project for branch:${CODEBUILD_SOURCE_INFO_BRANCH}"
+      - echo "Building project for branch:$ENV"
 
   build:
     commands:
