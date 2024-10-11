@@ -29,7 +29,7 @@ phases:
           cd infrastructure
           terraform init
           terraform plan -out=tfplan-infra
-          terraform apply "tfplan-infra"
+          # terraform apply "tfplan-infra"
         else
           echo "Error:Invalid environment specified in ENV variable. Exiting."
           exit 1
