@@ -1,72 +1,67 @@
-version: 0.2
+# version: 0.2
 
-phases:
-  install:
-    commands:
-      - echo "Installing dependencies..."
-      - apt-get update -y
-      - apt-get install -y unzip
-      - curl -o terraform.zip https://releases.hashicorp.com/terraform/1.0.11/terraform_1.0.11_linux_amd64.zip
-      - unzip terraform.zip
-      - mv terraform /usr/local/bin/
-      - terraform --version
+# phases:
+#   install:
+#     commands:
+#       - echo "Installing dependencies..."
+#       - apt-get update -y
+#       - apt-get install -y unzip
+#       - curl -o terraform.zip https://releases.hashicorp.com/terraform/1.0.11/terraform_1.0.11_linux_amd64.zip
+#       - unzip terraform.zip
+#       - mv terraform /usr/local/bin/
+#       - terraform --version
       
-  pre_build:
-    commands:
-      - echo "Setting up environment variables based on branch..."
-      - TRIGGER_BRANCH=$(echo "$CODEBUILD_WEBHOOK_BASE_REF" | sed 's|refs/heads/||')
-      - echo "Base branch identified as:$TRIGGER_BRANCH"
-      - |
-        if [[ "$TRIGGER_BRANCH" == "qa" ]]; then
-          export ENVIRONMENT="qa"
-          cd environment/qa
-        elif [[ "$TRIGGER_BRANCH" == "prod" ]]; then
-          export ENVIRONMENT="prod"
-          cd environment/prod
-        else
-          echo "No configurations"
-          exit 1
-        fi
-      - echo "Environment set to $ENVIRONMENT"
+#   pre_build:
+#     commands:
+#       - echo "Setting up environment variables based on branch..."
+#       - |
+#         if [[ "$CODEBUILD_SOURCE_VERSION" == "refs/heads/qa" ]]; then
+#           export ENVIRONMENT="qa"
+#           cd environment/qa
+#         elif [[ "$CODEBUILD_SOURCE_VERSION" == "refs/heads/prod" ]]; then
+#           export ENVIRONMENT="prod"
+#           cd environment/prod
+#         fi
+#       - echo "Environment set to $ENVIRONMENT"
 
-  # build:
-  #   commands:
-  #     - echo "Running Terraform in $ENVIRONMENT"
-  #     - terraform init
-  #     - terraform plan -out=tfplan
-  #     # - terraform apply "tfplan"
-  #     - cd ../..
+#   build:
+#     commands:
+#       - echo "Running Terraform in $ENVIRONMENT"
+#       - terraform init
+#       - terraform plan -out=tfplan
+#       # - terraform apply "tfplan"
+#       - cd ../..
 
-  #     - echo "Running terraform in infrastructure"
-  #     - cd infrastructure
-  #     - terraform init
-  #     - terraform plan -out=tfplan-infra
-  #     # - terraform apply "tfplan-infra"
-  #     - cd ..
+#       - echo "Running terraform in infrastructure"
+#       - cd infrastructure
+#       - terraform init
+#       - terraform plan -out=tfplan-infra
+#       # - terraform apply "tfplan-infra"
+#       - cd ..
 
-  # build:
-  #   commands:
-  #     - echo "Running terraform in environment/prod"
-  #     - cd environment/prod
-  #     - terraform init
-  #     - terraform plan -out=tfplan-prod
-  #     # - terraform apply "tfplan-prod"
-  #     - cd ../..
+#   # build:
+#   #   commands:
+#   #     - echo "Running terraform in environment/prod"
+#   #     - cd environment/prod
+#   #     - terraform init
+#   #     - terraform plan -out=tfplan-prod
+#   #     # - terraform apply "tfplan-prod"
+#   #     - cd ../..
 
-  #     - echo "Running terraform in environment/qa"
-  #     - cd environment/qa
-  #     - terraform init
-  #     - terraform plan -out=tfplan-qa
-  #     # - terraform apply "tfplan-qa"
-  #     - cd ../..
+#   #     - echo "Running terraform in environment/qa"
+#   #     - cd environment/qa
+#   #     - terraform init
+#   #     - terraform plan -out=tfplan-qa
+#   #     # - terraform apply "tfplan-qa"
+#   #     - cd ../..
 
-  #     - echo "Running terraform in infrastructure"
-  #     - cd infrastructure
-  #     - terraform init
-  #     - terraform plan -out=tfplan-infra
-  #     # - terraform apply "tfplan-infra"
-  #     - cd ..
+#   #     - echo "Running terraform in infrastructure"
+#   #     - cd infrastructure
+#   #     - terraform init
+#   #     - terraform plan -out=tfplan-infra
+#   #     # - terraform apply "tfplan-infra"
+#   #     - cd ..
 
-artifacts:
-  files:
-    - "**/*"
+# artifacts:
+#   files:
+#     - "**/*"
