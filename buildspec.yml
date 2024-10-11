@@ -4,8 +4,8 @@ phases:
   install:
     commands:
       - echo "Installing dependencies..."
-      - apt-get update -y
-      - apt-get install -y unzip
+      - yum update -y
+      - yum install -y unzip
       - curl -o terraform.zip https://releases.hashicorp.com/terraform/1.0.11/terraform_1.0.11_linux_amd64.zip
       - unzip terraform.zip
       - mv terraform /usr/local/bin/
@@ -17,19 +17,23 @@ phases:
 
   build:
     commands:
-      - echo "Running Terraform in $ENV"
-      - cd environment/$ENV
-      - terraform init
-      - terraform plan -out=tfplan$ENV
-      # - terraform apply "tfplan$ENV"
-      - cd ../..
-
-      - echo "Running terraform in infrastructure"
-      - cd infrastructure
-      - terraform init
-      - terraform plan -out=tfplan-infra
-      # - terraform apply "tfplan-infra"
-      - cd ..
+      - |
+        if [[ "$ENV" == "qa" ]] || [[ "$ENV" == "prod" ]]; then
+          echo "Switching to environment folder:$ENV"
+          cd environment/$ENV
+          terraform init
+          terraform plan -out=tfplan$ENV
+          # terraform apply "tfplan$ENV"
+        elif [[ "$ENV" == "infrastructure" ]]; then
+          echo "Switching to infrastructure folder"
+          cd infrastructure
+          terraform init
+          terraform plan -out=tfplan-infra
+          # terraform apply "tfplan-infra"
+        else
+          echo "Error:Invalid environment specified in ENV variable. Exiting."
+          exit 1
+        fi
 
 artifacts:
   files:
