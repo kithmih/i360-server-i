@@ -14,7 +14,7 @@ phases:
   pre_build:
     commands:
       - echo "Setting up qa environment"
-      - echo "Building project for branch:$ENV"
+      - echo "Building project for branch:$CODEPIPELINE_ENV"
 
   build:
     commands:
