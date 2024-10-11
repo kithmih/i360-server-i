@@ -18,13 +18,13 @@ phases:
   build:
     commands:
       - |
-        if [ "$ENV" == "qa" ] || [ "$ENV" == "prod" ]; then
+        if [[ "$ENV" == "qa" ]] || [[ "$ENV" == "prod" ]]; then
           echo "Switching to environment folder:$ENV"
           cd environment/$ENV
           terraform init
           terraform plan -out=tfplan$ENV
           # terraform apply "tfplan$ENV"
-        elif [ "$ENV" == "infrastructure" ]; then
+        elif [[ "$ENV" == "infrastructure" ]]; then
           echo "Switching to infrastructure folder"
           cd infrastructure
           terraform init
