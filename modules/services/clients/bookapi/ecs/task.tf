@@ -19,8 +19,8 @@ data "template_file" "contatiners" {
   template = file("${var.relative_path}/${var.client.services[each.value.tags.key].deploy.template}")
 
   vars = {
-    service        = "${var.owner}-${var.project}-${var.client.name}-${var.client.services[each.value.tags.key].name}"
-    log_group      = "${aws_cloudwatch_log_group.logs[each.key].name}"
+    service   = "${var.owner}-${var.project}-${var.client.name}-${var.client.services[each.value.tags.key].name}"
+    log_group = "${aws_cloudwatch_log_group.logs[each.key].name}"
     docker_image   = "${data.aws_ecr_repository.ecr[each.key].repository_url}:${lower(var.runtime.env.tick)}"
     env            = var.runtime.env.tick
     CONFIG_PROFILE = var.runtime.config.profile

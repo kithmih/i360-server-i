@@ -10,7 +10,7 @@
 		},
 		"portMappings": [
 			{
-				"hostPort": 8000,
+				"hostPort": 3000,
 				"protocol": "tcp",
 				"containerPort": 3000
 			}
