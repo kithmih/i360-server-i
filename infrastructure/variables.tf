@@ -20,7 +20,7 @@ variable "version_info" {
   default = {
     "v1" = {
       createdBy         = "kithmi"
-      createdOn         = "09/09/2024"
+      createdOn         = "14/10/2024"
       terraformEnabled  = "yes"
       terraformsVersion = "5.20.0"
     }
