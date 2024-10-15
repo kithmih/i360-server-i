@@ -21,15 +21,15 @@ phases:
         if [[ "$ENV" == "qa" ]] || [[ "$ENV" == "prod" ]]; then
           echo "Switching to environment folder:$ENV"
           cd environment/$ENV
-          terraform init
+          terraform init -backend-config="bucket=prod-house-terraform-i" -backend-config="key=infinitum360/v1/environment/$ENV/state" -backend-config="region=ap-south-1"
           terraform plan -out=tfplan$ENV
-          # terraform apply "tfplan$ENV"
+          terraform apply "tfplan$ENV"
         elif [[ "$ENV" == "infrastructure" ]]; then
           echo "Switching to infrastructure folder"
           cd infrastructure
-          terraform init
+          terraform init -backend-config="bucket=prod-house-terraform-i" -backend-config="key=infinitum360/v1/infrastructure/state" -backend-config="region=ap-south-1"
           terraform plan -out=tfplan-infra
-          # terraform apply "tfplan-infra"
+          terraform apply "tfplan-infra"
         else
           echo "Error:Invalid environment specified in ENV variable. Exiting."
           exit 1
