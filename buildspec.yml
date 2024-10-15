@@ -24,7 +24,7 @@ phases:
           terraform init
           terraform init -backend-config="bucket=prod-house-terraform-i" -backend-config="key=infinitum360/v1/environment/$ENV/state" -backend-config="region=ap-south-1"
           terraform plan -out=tfplan$ENV
-          # terraform apply "tfplan$ENV"
+          terraform apply "tfplan$ENV"
         elif [[ "$ENV" == "infrastructure" ]]; then
           echo "Switching to infrastructure folder"
           cd infrastructure
